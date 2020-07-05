@@ -6,6 +6,8 @@
 
     <title>Introduction to Rust</title>
 
+    <link rel="stylesheet" href="main.css" />
+
     <script>
       const projectName = "technical-docs-page";
       localStorage.setItem("example_project", "Technical Documentation Page");
@@ -16,10 +18,55 @@
     ></script>
   </head>
   <body>
+    <nav id="navbar">
+      <header>Introduction to Rust</header>
+      <ul>
+        <li><a class="nav-link" href="#What_is_Rust?">What is Rust?</a></li>
+        <li><a class="nav-link" href="#Hello_world!">Hello world!</a></li>
+
+        <li>
+          <a class="nav-link" href="#Variables_and_expressions"
+            >Variables and expressions</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="#Declaring_functions"
+            >Declaring functions</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="#Structs_and_traits">Structs and traits</a>
+        </li>
+      </ul>
+    </nav>
     <main id="main-doc">
       <section id="What_is_Rust?" class="main-section">
         <header>What is Rust?</header>
         <p>Rust is a new systems programming language.</p>
+        <p>Some of Rust's features and characteristics are:</p>
+        <ul>
+          <li>
+            compiled language, offering high-performance, low memory usage and
+            requires a minimal runtime
+          </li>
+          <li>
+            automatic memory management without garbage collection, based on its
+            novel lifetime model
+          </li>
+          <li>
+            statically typed, with powerful type inferrence so you almost never
+            have to explicitly specify a variable's type
+          </li>
+          <li>
+            provides algebraic data types
+          </li>
+        </ul>
+        <p>
+          For more information, I recommend going through
+          <a href="https://doc.rust-lang.org/book/" target="_blank"
+            >The Rust Programming Language book</a
+          >, available for free on the Rust documentation site.
+        </p>
       </section>
       <section id="Hello_world!" class="main-section">
         <header>Hello world!</header>
@@ -31,16 +78,166 @@
     println!("Hello world!");
 }
 </code></pre>
+        <p>
+          Let's break this (very simple) example up into parts, for clarity:
+        </p>
+        <ul>
+          <li>
+            <p>
+              <code>fn</code> is a <em>keyword</em> used to define a new
+              function. Since functions are used a lot in procedural programs,
+              it makes sense to keep the syntax for declaring them as short as
+              possible.
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>main</code> is the name of the function. The main function
+              is special, it will be called by the operating system when the
+              user runs the program.
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>()</code> indicate the list of parameters received by the
+              function. For <code>main</code>, this must always be empty.
+            </p>
+          </li>
+          <li>
+            <p>
+              The <code>{ ... }</code> syntax should be familiar to anyone with
+              previous experience in C or a C-like programming language. It
+              indicates the start of a new block of code.
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>println!</code> is a <em>macro</em> (you can tell that by
+              the fact it's called by adding a <code>!</code> to its name).
+              Before you complain, it's important to note that Rust macros are
+              nowhere like C macros, but rather like the Lisp ones. They are
+              natively understood by the compiler, have proper identifier
+              hygiene, and none of the pitfalls or limitations the C ones have.
+            </p>
+            <p>
+              The reason <code>println</code> is a macro, not a function, is to
+              allow the compiler to statically check that the format specifiers
+              are correct and have corresponding arguments. You will not
+              encounter bugs related to incorrect <code>printf</code>/<code
+                >scanf</code
+              >
+              format strings in Rust.
+            </p>
+          </li>
+          <li>
+            <code>"Hello world!"</code> is a string. If you're coming from a
+            language like Python or JavaScript, be careful: double quotes
+            (<code>"</code>) are for <em>strings</em> and single quotes
+            (<code>'</code>) are for <em>characters</em>.
+          </li>
+        </ul>
       </section>
       <section id="Variables_and_expressions" class="main-section">
         <header>Variables and expressions</header>
+        <p>
+          Declaring new variable bindings is simple, just use the
+          <code>let</code> keyword:
+        </p>
+        <pre><code>let x = "Hello!";</code></pre>
+        <p>
+          Rust is an <em>expression-oriented</em> language, in the sense that
+          you can even have blocks of code evaluate to a value, and use that
+          recursively to form new expressions.
+        </p>
+        <pre><code>let x = {
+  let z = 2 + 2;
+  z
+} - 5 * {
+  let y = 14;
+  y - 1
+};
+</code></pre>
+        <p>
+          Notice how I didn't add semicolons (<code>;</code>) to the last
+          expressions in each inner block. That's because Rust will give the
+          value of that final expression to the whole block.
+        </p>
       </section>
       <section id="Declaring_functions" class="main-section">
         <header>Declaring functions</header>
+        <p>
+          You've already seen above how to define the
+          <code>main</code> function. If you want to define other functions as
+          you can follow the same pattern, and perhaps take in some arguments or
+          return a value:
+        </p>
+        <pre><code>fn my_function(a: u8, b: String) -> u64 {
+  // ...
+}</code></pre>
+        <p>
+          In case it's not obvious, <code>u8</code> and <code>u64</code> are
+          primitive types defining fixed-width <b>u</b>nsigned integers.
+        </p>
+        <p>
+          <code>String</code> is a heap-allocated array of UTF-8 characters.
+          Rust strings are not null-terminated; instead, they are represented as
+          a pointer along with the length of the allocated array.
+        </p>
+        <p>Calling functions is also a breeze:</p>
+        <pre><code>fn main() {
+  let result = my_function(123, String::from("Hello"));
+  // ...
+}</code></pre>
+        <p>
+          Note the use of <code>String::from</code> which creates a new owned
+          string from an array slice of characters, such as a string literal.
+          Allocations are easily visible in Rust.
+        </p>
       </section>
       <section id="Structs_and_traits" class="main-section">
         <header>Structs and traits</header>
+        <p>
+          You can create your own composite data types using the
+          <code>struct</code> keyword:
+        </p>
+        <pre><code>struct MyStruct {
+  some_field: String,
+  some_other_field: u32,
+  // ...
+}</code></pre>
+        <p>
+          Structures can be instantiated by specifying a value for each of their
+          fields.
+        </p>
+        <pre><code>let my_struct = MyStruct {
+  some_field: String::from("hi!"),
+  some_other_field: 123456,
+  // ...
+};</code></pre>
+        <p>
+          Traits can be used to abstract away common behavior of data types:
+        </p>
+        <pre><code>trait Frobnicable {
+  fn frobnicate();
+}
+
+impl Frobnicate for MyStruct {
+  fn frobnicate() { /* ... */ }
+}</code></pre>
+        <p>
+          One great advantage of traits is that you can implement your traits on
+          types defined externally, such as built-ins or from external
+          libraries.
+        </p>
       </section>
     </main>
+    <script>
+      document.write(
+        '<script src="http://' +
+          (location.host || "localhost").split(":")[0] +
+          ':35729/livereload.js?snipver=1"></' +
+          "script>"
+      );
+    </script>
   </body>
 </html>

@@ -1,0 +1,59 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+a:visited {
+  color: darkblue;
+}
+
+a:hover {
+  color: blue;
+}
+
+a:active {
+  color: darkcyan;
+}
+
+body {
+  margin: 0;
+  padding-left: 3em;
+}
+
+header {
+  font-size: 1.5em;
+}
+
+nav header {
+  font-size: 1.75em;
+  font-weight: bold;
+}
+
+nav {
+  padding-top: 7px;
+}
+
+main {
+  padding-top: 11px;
+  padding-bottom: 1em;
+}
+
+@media (min-width: 64rem) {
+  body {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  nav {
+    min-width: 22em;
+
+    position: sticky;
+    top: 0;
+  }
+
+  main {
+    max-width: 42em;
+  }
+}
